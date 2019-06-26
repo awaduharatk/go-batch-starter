@@ -3,23 +3,33 @@ package logic
 import (
 	"fmt"
 
+	"github.com/awaduharatk/go-batch-starter/db"
+	errorh "github.com/awaduharatk/go-batch-starter/error"
+	"github.com/awaduharatk/go-batch-starter/model"
 	"github.com/jinzhu/gorm"
-	"github.com/temp-go-dev/sample-batch/model"
 )
 
-// Sublogicinterface interface
-type Sublogicinterface interface {
-	SelectData(string) error
+// Sublogic interface
+type Sublogic interface {
+	SelectData(string) ([]model.User, error)
+	OutputUser(users []model.User) error
 	CreatePanic() error
 }
 
-// SublogicRegister st
-type SublogicRegister struct {
+// Sublogic st
+type sublogicst struct {
 	db *gorm.DB
 }
 
+// NewSublogic sublogic constractor
+func NewSublogic(db *gorm.DB) Sublogic {
+	return &sublogicst{
+		db,
+	}
+}
+
 // SelectData データを取得する
-func (sub *SublogicRegister) SelectData(args string) ([]model.User, error) {
+func (sub *sublogicst) SelectData(args string) ([]model.User, error) {
 	users := []model.User{}
 
 	if args == "9999" {
@@ -30,30 +40,34 @@ func (sub *SublogicRegister) SelectData(args string) ([]model.User, error) {
 			return nil, err
 		}
 	} else {
-		err := sub.db.Raw("SELECT * FROM user").Scan(&users).Error
+		_, err := db.Transact(sub.db, func(tx *gorm.DB) (interface{}, error) {
+			err := sub.db.Raw("SELECT * FROM user").Scan(&users).Error
+			if err != nil {
+				return nil, err
+			}
+			return users, nil
+		})
 		if err != nil {
-			fmt.Println("db errror")
 			return nil, err
 		}
 	}
-
 	return users, nil
 }
 
 // OutputUser user情報をファイルに出力
-func (sub *SublogicRegister) OutputUser(users []model.User) error {
+func (sub *sublogicst) OutputUser(users []model.User) error {
 	fmt.Println(users)
 	return nil
 }
 
 // CreatePanic パニック生成
-// func (sub *SublogicRegister) CreatePanic() error {
+func (sub *sublogicst) CreatePanic() error {
 
-// 	fmt.Println("createPanic")
-// 	panic(errorh.NewExitError(
-// 		errorh.ExitCodeError,
-// 		"E001",
-// 		nil,
-// 	))
-// 	// panic("panic!!!!")
-// }
+	fmt.Println("createPanic")
+	panic(errorh.NewExitError(
+		errorh.ExitCodeError,
+		"E001",
+		nil,
+	))
+	// panic("panic!!!!")
+}

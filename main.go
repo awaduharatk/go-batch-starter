@@ -7,9 +7,10 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/temp-go-dev/sample-batch/db"
-	errorh "github.com/temp-go-dev/sample-batch/error"
-	"github.com/temp-go-dev/sample-batch/logic"
+
+	"github.com/awaduharatk/go-batch-starter/db"
+	errorh "github.com/awaduharatk/go-batch-starter/error"
+	"github.com/awaduharatk/go-batch-starter/logic"
 )
 
 func main() {
@@ -44,6 +45,7 @@ func main() {
 
 func run(args []string) error {
 	fmt.Println("running")
-	var logic logic.Mainlogic
+	// sub := logic.NewSublogic(db.GetDB())
+	logic := &logic.Mainlogic{}
 	return logic.Logic(args)
 }

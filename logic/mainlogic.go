@@ -3,23 +3,25 @@ package logic
 import (
 	"fmt"
 
+	"github.com/awaduharatk/go-batch-starter/db"
+	errorh "github.com/awaduharatk/go-batch-starter/error"
+	"github.com/awaduharatk/go-batch-starter/model"
 	"github.com/pkg/errors"
-	"github.com/temp-go-dev/sample-batch/db"
-	errorh "github.com/temp-go-dev/sample-batch/error"
-	"github.com/temp-go-dev/sample-batch/model"
 )
 
 // Mainlogicinterface aa
-type Mainlogicinterface interface {
-	Logic([]string) error
-}
+// type Mainlogicinterface interface {
+// 	Logic([]string) error
+// }
 
 // Mainlogic st
 type Mainlogic struct {
+	sublogic Sublogic
 }
 
 // Logic 業務ロジックを記載
 func (main *Mainlogic) Logic(args []string) error {
+	// 引数チェック
 	if len(args) == 0 {
 		return errorh.NewExitError(
 			errorh.ExitCodeWarn,
@@ -28,11 +30,13 @@ func (main *Mainlogic) Logic(args []string) error {
 		)
 	}
 
-	sub := &SublogicRegister{db: db.GetDB()}
+	// sublogicのインスタンス生成
+	sub := NewSublogic(db.GetDB())
 	var err error
 
 	var users []model.User
 	// SelectDataを呼び出す
+	// users, err = main.sublogic.SelectData(args[0])
 	users, err = sub.SelectData(args[0])
 	if err != nil { // エラーが発生している場合,、ExitErrorを返却
 		fmt.Println("error catch")
@@ -43,6 +47,7 @@ func (main *Mainlogic) Logic(args []string) error {
 		)
 	}
 
+	// err = main.sublogic.OutputUser(users)
 	err = sub.OutputUser(users)
 	if err != nil { // エラーが発生している場合,、ExitErrorを返却
 		fmt.Println("error catch")

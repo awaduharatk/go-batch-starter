@@ -3,7 +3,14 @@
 ## 実現したいもの
 * Batch処理のstarterっぽいもの
 * di
+  * configrationみたいなもので初期化してDIする？
 * interfaceを利用したMock
+* dao的なもの
+
+## 課題
+* キックするロジックを動的に変更する方法(低優先度)
+* errorのスタックトレース
+* packageの分け方の検討
 
 
 ## 参考

@@ -46,6 +46,7 @@ func main() {
 func run(args []string) error {
 	fmt.Println("running")
 	// sub := logic.NewSublogic(db.GetDB())
-	logic := &logic.Mainlogic{}
+	logic := logic.NewMainlogic(db.GetDB())
+	// logic := &logic.Mainlogic{}
 	return logic.Logic(args)
 }

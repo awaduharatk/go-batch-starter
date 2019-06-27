@@ -15,5 +15,6 @@
 
 ## 参考
 
-* [Goとクリーンアーキテクチャとトランザクションと](https://qiita.com/miya-masa/items/316256924a1f0d7374bb#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB)
-* [GoにおけるDI](http://inukirom.hatenablog.com/entry/di-in-go)
+* [Goとクリーンアーキテクチャとトランザクションと](https://qiita.com/miya-masa/items/316256924a1f0d7374bb#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB)  
+* [GoにおけるDI](http://inukirom.hatenablog.com/entry/di-in-go)  
+* [DIの仕組みをGoで実装して理解する](https://qiita.com/yoshinori_hisakawa/items/a944115eb77ed9247794)  

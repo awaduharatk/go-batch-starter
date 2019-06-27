@@ -10,26 +10,26 @@ import (
 )
 
 // Sublogic interface
-type Sublogic interface {
+type Sublogicinterface interface {
 	SelectData(string) ([]model.User, error)
 	OutputUser(users []model.User) error
 	CreatePanic() error
 }
 
 // Sublogic st
-type sublogicst struct {
+type sublogic struct {
 	db *gorm.DB
 }
 
 // NewSublogic sublogic constractor
-func NewSublogic(db *gorm.DB) Sublogic {
-	return &sublogicst{
+func NewSublogic(db *gorm.DB) Sublogicinterface {
+	return &sublogic{
 		db,
 	}
 }
 
 // SelectData データを取得する
-func (sub *sublogicst) SelectData(args string) ([]model.User, error) {
+func (sub *sublogic) SelectData(args string) ([]model.User, error) {
 	users := []model.User{}
 
 	if args == "9999" {
@@ -55,13 +55,13 @@ func (sub *sublogicst) SelectData(args string) ([]model.User, error) {
 }
 
 // OutputUser user情報をファイルに出力
-func (sub *sublogicst) OutputUser(users []model.User) error {
+func (sub *sublogic) OutputUser(users []model.User) error {
 	fmt.Println(users)
 	return nil
 }
 
 // CreatePanic パニック生成
-func (sub *sublogicst) CreatePanic() error {
+func (sub *sublogic) CreatePanic() error {
 
 	fmt.Println("createPanic")
 	panic(errorh.NewExitError(

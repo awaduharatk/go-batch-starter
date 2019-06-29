@@ -1,8 +1,6 @@
-package config
+package configuration
 
 import (
-	"log"
-
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -19,11 +17,6 @@ func Init() {
 	// if err != nil {
 	// 	log.Fatal("Error loading .env file")
 	// }
-
-	err = envconfig.Process("env", &prop)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
 }
 
 // Properties ENVプロパティマッピング用
@@ -37,5 +30,9 @@ type Properties struct { //必須チェックを行うタグ
 
 // GetProperties get prop
 func GetProperties() Properties {
+	err = envconfig.Process("env", &prop)
+	if err != nil {
+		panic(err)
+	}
 	return prop
 }

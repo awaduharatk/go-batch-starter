@@ -51,6 +51,10 @@ func HandleExit(err error) int {
 		fmt.Printf("messageID:%v\n", e.messageID)
 		fmt.Printf("err:%v\n", e.err)
 		fmt.Printf("exitCode:%v\n", e.exitCode)
+
+		fmt.Printf("stack: %+v\n", err)
+
+		// fmt.Printf("stack: %+v\n", errors.WithStack(err))
 		return e.exitCode
 	}
 
@@ -60,8 +64,6 @@ func HandleExit(err error) int {
 		fmt.Printf("error:%v\n", e)
 		return ExitCodeError
 	}
-
-
 
 	return ExitCodeOK
 }

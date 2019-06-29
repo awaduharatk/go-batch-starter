@@ -25,6 +25,7 @@ func (sub *sublogicMock) CreatePanic() error {
 	return nil
 }
 
+// sublogicをMockにしてMainlogigを実行する
 func TestMock(t *testing.T) {
 	fmt.Println("running!! TestMock!!!!")
 

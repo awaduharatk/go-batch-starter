@@ -5,7 +5,6 @@ import (
 
 	errorh "github.com/awaduharatk/go-batch-starter/error"
 	"github.com/awaduharatk/go-batch-starter/model"
-	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 )
 
@@ -20,9 +19,9 @@ type Mainlogic struct {
 }
 
 // NewMainlogic constractor
-func NewMainlogic(db *gorm.DB) Mainlogicinterface {
+func NewMainlogic(sublogic Sublogicinterface) Mainlogicinterface {
 	return &Mainlogic{
-		NewSublogic(db),
+		sublogic,
 	}
 }
 
@@ -50,7 +49,7 @@ func (main *Mainlogic) Logic(args []string) error {
 		return errorh.NewExitError(
 			errorh.ExitCodeError,
 			"E001",
-			err,
+			errors.WithStack(err),
 		)
 	}
 

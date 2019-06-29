@@ -3,13 +3,14 @@ package logic
 import (
 	"fmt"
 
-	"github.com/awaduharatk/go-batch-starter/db"
+	"github.com/awaduharatk/go-batch-starter/common"
 	errorh "github.com/awaduharatk/go-batch-starter/error"
 	"github.com/awaduharatk/go-batch-starter/model"
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
-// Sublogic interface
+// Sublogicinterface interface
 type Sublogicinterface interface {
 	SelectData(string) ([]model.User, error)
 	OutputUser(users []model.User) error
@@ -36,11 +37,11 @@ func (sub *sublogic) SelectData(args string) ([]model.User, error) {
 		// エラーになるSQLを実行
 		err := sub.db.Raw("aaaaaaSELECT * FROM user").Scan(&users).Error
 		if err != nil {
-			fmt.Println("db errror")
-			return nil, err
+			return nil, errors.WithStack(err)
+			// return nil, err
 		}
 	} else {
-		_, err := db.Transact(sub.db, func(tx *gorm.DB) (interface{}, error) {
+		_, err := common.Transact(sub.db, func(tx *gorm.DB) (interface{}, error) {
 			err := sub.db.Raw("SELECT * FROM user").Scan(&users).Error
 			if err != nil {
 				return nil, err
